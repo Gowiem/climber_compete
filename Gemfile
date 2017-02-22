@@ -1,4 +1,4 @@
-source 'https://rubygems.org'.freeze
+source 'https://rubygems.org'
 
 gem 'mongoid', '~> 6.0.0'
 gem 'rails', '~> 5.0.1'
