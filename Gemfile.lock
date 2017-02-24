@@ -113,6 +113,8 @@ GEM
     rb-fsevent (0.9.8)
     rb-inotify (0.9.8)
       ffi (>= 0.5.0)
+    react-bootstrap-rails (0.30.2)
+      rails (>= 3.1)
     react-rails (1.10.0)
       babel-transpiler (>= 0.7.0)
       coffee-script-source (~> 1.8)
@@ -172,6 +174,7 @@ DEPENDENCIES
   mongoid (~> 6.0.0)
   puma (~> 3.0)
   rails (~> 5.0.1)
+  react-bootstrap-rails
   react-rails (~> 1.10.0)
   rubocop (~> 0.47.1)
   sass-rails (~> 5.0)
