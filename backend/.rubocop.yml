@@ -14,5 +14,8 @@ Bundler/OrderedGems:
 Metrics/LineLength:
   Enabled: false
 
+Metrics/AbcSize:
+  Enabled: false
+
 Style/Documentation:
   Enabled: False
