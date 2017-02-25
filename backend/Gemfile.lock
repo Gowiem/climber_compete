@@ -50,10 +50,18 @@ GEM
       railties (>= 4.1.0, < 5.1)
       responders
       warden (~> 1.2.3)
+    domain_name (0.5.20170223)
+      unf (>= 0.0.5, < 1.0.0)
+    dotenv (2.2.0)
+    dotenv-rails (2.2.0)
+      dotenv (= 2.2.0)
+      railties (>= 3.2, < 5.1)
     erubis (2.7.0)
     ffi (1.9.17)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
+    http-cookie (1.0.3)
+      domain_name (~> 0.5)
     i18n (0.8.1)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -68,6 +76,7 @@ GEM
     mime-types-data (3.2016.0521)
     mini_portile2 (2.1.0)
     minitest (5.10.1)
+    netrc (0.11.0)
     nio4r (1.2.1)
     nokogiri (1.7.0.1)
       mini_portile2 (~> 2.1.0)
@@ -109,6 +118,10 @@ GEM
     redis (3.3.3)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
+    rest-client (2.0.1)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
     sidekiq (4.2.9)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
@@ -130,6 +143,9 @@ GEM
     thread_safe (0.3.6)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.2)
     warden (1.2.7)
       rack (>= 1.0)
     websocket-driver (0.6.5)
@@ -142,10 +158,12 @@ PLATFORMS
 DEPENDENCIES
   byebug
   devise
+  dotenv-rails
   listen (~> 3.0.5)
   pg (~> 0.18)
   puma (~> 3.0)
   rails (~> 5.0.1)
+  rest-client
   sidekiq
   spring
   spring-watcher-listen (~> 2.0.0)
