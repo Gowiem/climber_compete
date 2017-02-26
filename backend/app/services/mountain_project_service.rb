@@ -11,10 +11,19 @@ module MountainProjectService
     ticks_response = fetch_for_action(:getTicks, email: email, 'startPos' => start_pos)
 
     return if ticks_response.nil?
-    ticks = ticks_response['ticks'].each_with_object({}) { |t, memo| memo[t['routeId'].to_s] = t }
+    ticks = ticks_response['ticks']
 
-    routes = fetch_routes(ticks.keys)
-    merged_routes = routes.merge(ticks) { |_, r, t| r.merge(t) }
+    # There can be many of the same routeId since the user can tick the route
+    # multiple times. We only care to fetch it once though.
+    route_ids = Set.new(ticks.map { |t| t['routeId'] })
+
+    routes = fetch_routes(route_ids)
+
+    # We need to pair each tick with it's associated route. There are likely
+    # more ticks than routes.
+    merged_routes = ticks.each_with_object([]) do |t, memo|
+      memo << routes[t['routeId'].to_s].merge(t)
+    end
 
     block.call(merged_routes)
 

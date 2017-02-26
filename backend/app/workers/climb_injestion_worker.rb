@@ -4,8 +4,7 @@ class ClimbInjestionWorker
   def perform(user_id)
     user = User.find(user_id)
     MountainProjectService.process_user_climbs(user.email) do |routes|
-      routes = routes.values.map(&:with_indifferent_access)
-      routes.each { |route| create_climb(route, user) }
+      routes.each { |route| create_climb(route.with_indifferent_access, user) }
     end
   end
 
