@@ -1,6 +1,25 @@
 require 'json'
 # API Documentaion: https://www.mountainproject.com/data
+# TODO: I've gone about this wrong. The RestClient calls should be pulled out to
+# their own service for easier unit testing.
 module MountainProjectService
+  # Checks MP to see if the given user has climbed anything new to injest. This is
+  # determined by looking at the User#latest_climb_compound and check it against
+  # the first route that MP returns (the user's most recent climb)
+  def new_climbs?(user)
+    user_latest_compound = user.latest_climb_compound
+    return true if user_latest_compound.nil?
+
+    ticks_response = fetch_for_action(:getTicks, email: user.email)
+    return false if ticks_response.nil? # Something went wrong, don't request MP
+
+    first_tick = ticks_response['ticks'][0]
+    return false if first_tick.nil? # No climbs, don't request MP
+
+    mp_latest_compound = User.latest_climb_compound(first_tick['date'], first_tick['routeId'])
+    mp_latest_compound != user_latest_compound
+  end
+
   # email       - Email of user to fetch climbs for
   # start_pos   - Start start_pos of the pagination, default 0
   # block       - Block to call on the User's climbs

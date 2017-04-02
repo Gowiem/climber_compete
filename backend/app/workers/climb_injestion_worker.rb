@@ -3,22 +3,29 @@ class ClimbInjestionWorker
 
   def perform(user_id)
     user = User.find(user_id)
-    MountainProjectService.process_user_climbs(user.email) do |routes|
-      routes.each { |route| create_climb(route.with_indifferent_access, user) }
+
+    return unless MountainProjectService.new_climbs?(user)
+
+    new_latest_climb = nil
+    MountainProjectService.process_user_climbs(user.email) do |climbs|
+      new_latest_climb = climbs.first if new_latest_climb.nil?
+      climbs.each { |climb| create_climb(climb.with_indifferent_access, user) }
     end
+
+    # Update the user model with some info so we can determine where to start
+    # the injestion process next time.
+    User.update_with_latest_climb(new_latest_climb)
   end
 
   private
 
-  def create_climb(route, user)
-    date = route[:date].split('-')
-    climb_date = DateTime.new(date[0].to_i, date[1].to_i, date[2].to_i)
-    Climb.create(name: route[:name],
-                 climb_type: route[:type],
-                 rating: route[:rating],
-                 pitches: route[:pitches].to_i,
-                 route_id: route[:id],
-                 climb_date: climb_date,
+  def create_climb(climb, user)
+    Climb.create(name: climb[:name],
+                 climb_type: climb[:type],
+                 rating: climb[:rating],
+                 pitches: climb[:pitches].to_i,
+                 route_id: climb[:id],
+                 climb_date: Climb.parse_date_from_mp_format(climb[:date]),
                  user: user)
   end
 end
