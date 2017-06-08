@@ -1,5 +1,5 @@
 {
-  "disableAnalytics": false
+  "disableAnalytics": false,
   "port": "8080",
   "watcher": "polling",
   "host": "localhost"
