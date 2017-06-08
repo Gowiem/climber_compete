@@ -1,0 +1,9 @@
+<h2>Sign Up</h2>
+{{#bs-form model=model onSubmit=(route-action "submit" model) as |form|}}
+  {{form.element controlType="text" label="Email" placeholder="Email" property="email" required=true}}
+  {{form.element controlType="text" label="First Name" placeholder="First Name" property="firstName" required=true}}
+  {{form.element controlType="text" label="Last Name" placeholder="Last Name" property="lastName" required=true}}
+  {{form.element controlType="password" label="Password" placeholder="Password" property="password" required=true}}
+  {{form.element controlType="password" label="Password Confirmation" placeholder="Password Confirmation" property="passwordConfirmation" required=true}}
+  {{bs-button defaultText="Submit" type="primary" buttonType="submit"}}
+{{/bs-form}}
